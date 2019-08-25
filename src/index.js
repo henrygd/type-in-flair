@@ -17,7 +17,7 @@ if (process.env.NODE_ENV === 'production') {
 			runtime.applyUpdate()
 		},
 		onUpdated: () => {
-			new Notify({
+			let notificationOpts = {
 				message: 'Update available!',
 				duration: Infinity,
 				actions: [
@@ -25,14 +25,17 @@ if (process.env.NODE_ENV === 'production') {
 						label: 'Refresh',
 						value: 'refresh',
 					},
-					{
-						label: 'Close',
-						value: 'close',
-					},
 				],
 				closeable: true,
 				callback: value => value === 'refresh' && window.location.reload(),
-			})
+			}
+			if (window.innerWidth > 500) {
+				notificationOpts.actions.push({
+					label: 'Close',
+					value: 'close',
+				})
+			}
+			new Notify(notificationOpts)
 		},
 	})
 }

@@ -1,10 +1,13 @@
 <script>
 	import Footer from './footer.svelte'
-	import { onMount } from 'svelte'
+	import { onMount, beforeUpdate, afterUpdate } from 'svelte'
 	import copy from 'copy-text-to-clipboard'
 
 	// user input
 	let userInput = ''
+
+	// set to true in beforeUpdate if we want to autoscroll textarea
+	let autoscroll
 
 	// store copy clicks to show animation
 	let copies = []
@@ -39,6 +42,21 @@
 	}
 
 	onMount(() => userInputArea.focus())
+
+	// sets autoscroll to true if user is scrolled within 60px of bottom of textarea
+	beforeUpdate(() => {
+		autoscroll =
+			userInputArea &&
+			userInputArea.offsetHeight + userInputArea.scrollTop >
+				userInputArea.scrollHeight - 60
+	})
+
+	// if autoscroll is true, scroll to bottom of textarea
+	afterUpdate(() => {
+		autoscroll &&
+			userInputArea.scrollTo &&
+			userInputArea.scrollTo(0, userInputArea.scrollHeight)
+	})
 </script>
 
 <style lang="scss">
@@ -176,6 +194,7 @@
 		<div id="anchor" />
 	</div>
 
+	<!-- copy button -->
 	<button
 		on:click={copyComment}
 		tabindex="0"
