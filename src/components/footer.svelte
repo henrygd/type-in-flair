@@ -44,7 +44,7 @@
 <footer>
 	<img src={githubLogo} alt="" />
 	<a
-		href="https://github.com/henrygd/bigpicture"
+		href="https://github.com/henrygd/type-in-flair"
 		target="blank"
 		rel="nooopener">
 		<span class="sr-only">View on Github</span>
